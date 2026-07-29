@@ -30,3 +30,5 @@ raw_player_data_column_subset = raw_player_data[['first_name', \
 
 print(raw_player_data.head(10))
 print(raw_player_data_column_subset.head(10))
+
+#incorporate scoring sheet logic from draft sheet
