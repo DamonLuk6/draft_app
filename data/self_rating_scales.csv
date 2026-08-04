@@ -1,0 +1,35 @@
+﻿Category,Response,Score
+Throwing,Excellent,5
+Throwing,Good,4
+Throwing,Average,3
+Throwing,Below Average,2
+Throwing,Beginner,1
+Cutting,Excellent,5
+Cutting,Good,4
+Cutting,Average,3
+Cutting,Below Average,2
+Cutting,Beginner,1
+Athleticism,Excellent,5
+Athleticism,Good,4
+Athleticism,Average,3
+Athleticism,Below Average,2
+Athleticism,Beginner,1
+Endurance,Excellent,5
+Endurance,Good,4
+Endurance,Average,3
+Endurance,Below Average,2
+Endurance,Beginner,1
+Experience,10+ years,5
+Experience,3-10 years,3
+Experience,1-3 years,1
+Experience,0-1 years,0
+Level of Play,Club Nationals or Semi-pro leagues,5
+Level of Play,College Nationals or Club Regionals,4
+Level of Play,College Regionals or Club Sectionals,3
+Level of Play,High School,2
+Level of Play,Pickup,1
+Attendance,Missing Finals,2.5
+Attendance,"Missing four or more regular season games, or playoff games",1.75
+Attendance,Missing one to three regular season games,1
+Attendance,Missing no games,0
+Attendance,Missing no games,0
