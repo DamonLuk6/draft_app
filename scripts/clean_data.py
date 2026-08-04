@@ -30,6 +30,9 @@ def calculateSelfRating(row): #calculates each players' self rating
 
 
     return selfRating
+
+
+
 if __name__ == "__main__":
 
     try: 
@@ -51,6 +54,10 @@ if __name__ == "__main__":
         self_rating_scales = pd.read_csv("../data/self_rating_scales.csv")
     except FileNotFoundError:
         print("self rating scales file is missing")
+
+    scaleDict = {}
+    for index,row in self_rating_scales.iterrows():
+        scaleDict.setdefault(row['Category'], {})[row['Response']] = row['Score']
 
     accepted_players_data_column_subset = accepted_player_data_raw[['first_name', \
                                         'last_name', \
@@ -79,6 +86,7 @@ if __name__ == "__main__":
     #print(raw_player_data.head(10))
     #print(accepted_players_data_column_subset.head(10))
     #print(existing_player_rating.head())
+    print(scaleDict)
 
     accepted_players_data_column_subset['player_rating'] = accepted_players_data_column_subset.apply( lambda row: findExistingPlayerRating(row, existing_player_rating), axis=1)
     accepted_players_data_column_subset.to_csv("../data/scoring.csv", index = False)
