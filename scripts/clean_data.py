@@ -24,18 +24,36 @@ def findExistingPlayerRating(row, historicalRatings): #finds existing ratings fo
     return playerRating
 
 
-def calculateSelfRating(row): #calculates each players' self rating 
-    selfRating = 0
+def convertSelfRatingToNumeric(row, skillCategory, ratingScale): #converts each players' self rating text response to number
+    responseNumericRating = 0
+    selfResponse = row[skillCategory].strip()
 
+    skillRatingScaleDict = ratingScale[skillCategory]
+    try:
+        responseNumericRating = skillRatingScaleDict[selfResponse]
+    except KeyError:
+        print(skillCategory)
+        print(row['first_name'], row['last_name'])
+        print("key does not exist in scale dictionary")
 
+    return responseNumericRating
+
+def calculateSelfRating(row): #calculates self rating using each skill and their score
+    selfRating = (0.05 * row['experience_rating'] + \
+                0.25 * row['level_of_play_rating'] + \
+                0.2 * row['throwing_rating'] + \
+                0.15 * row['cutting_rating'] + \
+                0.2 * row['athleticism_rating'] + \
+                0.15 * row['endurance_rating']) * 2 
 
     return selfRating
+                
 
 
 
 if __name__ == "__main__":
 
-    try: 
+    try: #getting registered players
         raw_player_data = pd.read_csv("../data/raw_player_registration.csv")
     except FileNotFoundError:
         print("raw player data file is missing")
@@ -45,21 +63,21 @@ if __name__ == "__main__":
 
     #skipping first row and adding column names, might have to adjust depending on actual player rating file
     player_rating_col_names = ['first_name', 'last_name', 'usau', 'rating']
-    try:
+    try: #getting historical ratings
         existing_player_rating = pd.read_csv("../data/players_rating_list.csv" , skiprows = 1, names = player_rating_col_names, usecols = [0,1,2,3]) 
     except FileNotFoundError:
         print("ratings file is missing")
 
-    try:
+    try: #getting rating scale
         self_rating_scales = pd.read_csv("../data/self_rating_scales.csv")
     except FileNotFoundError:
         print("self rating scales file is missing")
 
-    scaleDict = {}
+    scaleDict = {} #transforming rating scale to a dictionary
     for index,row in self_rating_scales.iterrows():
-        scaleDict.setdefault(row['Category'], {})[row['Response']] = row['Score']
+        scaleDict.setdefault(row['Category'], {})[row['Response']] = row['Score'] #gets category dict, if it doesn't exist, make one
 
-    accepted_players_data_column_subset = accepted_player_data_raw[['first_name', \
+    accepted_players_data_subset = accepted_player_data_raw[['first_name', \
                                         'last_name', \
                                         'email_address', \
                                         'gender_id', \
@@ -83,12 +101,25 @@ if __name__ == "__main__":
                                         'Missing Games', \
                                         'Status']]
 
-    #print(raw_player_data.head(10))
-    #print(accepted_players_data_column_subset.head(10))
-    #print(existing_player_rating.head())
-    print(scaleDict)
 
-    accepted_players_data_column_subset['player_rating'] = accepted_players_data_column_subset.apply( lambda row: findExistingPlayerRating(row, existing_player_rating), axis=1)
-    accepted_players_data_column_subset.to_csv("../data/scoring.csv", index = False)
+    accepted_players_data_subset['historical_player_rating'] = accepted_players_data_subset.apply( lambda row: findExistingPlayerRating(row, existing_player_rating), axis=1)
+
+    accepted_players_data_subset['throwing_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Throwing", scaleDict), axis = 1)
+
+    accepted_players_data_subset['cutting_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Cutting", scaleDict), axis = 1)
+
+    accepted_players_data_subset['athleticism_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Athleticism", scaleDict), axis = 1)
+
+    accepted_players_data_subset['endurance_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Endurance", scaleDict), axis = 1)
+
+    accepted_players_data_subset['experience_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Experience Count", scaleDict), axis = 1)
+
+    accepted_players_data_subset['level_of_play_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Level of Play", scaleDict), axis = 1)
+
+    accepted_players_data_subset['self_skill_rating'] = accepted_players_data_subset.apply(calculateSelfRating, axis = 1)
+
+    accepted_players_data_subset['ratio_self_to_vet_rating'] = accepted_players_data_subset['self_skill_rating'] / accepted_players_data_subset['historical_player_rating']
+
+    accepted_players_data_subset.to_csv("../data/scoring.csv", index = False)
 
 #incorporate scoring sheet logic from draft sheet
