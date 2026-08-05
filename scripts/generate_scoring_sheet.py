@@ -1,4 +1,5 @@
 #luk 
+#incorporate scoring sheet logic from draft sheet
 
 import pandas as pd 
 
@@ -142,4 +143,3 @@ if __name__ == "__main__":
 
     accepted_players_data_subset.to_csv("../data/scoring.csv", index = False, float_format = "%.3f")
 
-#incorporate scoring sheet logic from draft sheet
