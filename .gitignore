@@ -219,3 +219,4 @@ __marimo__/
 
 # Player data - keep out of version control
 data/*.csv
+data/*.xlsx

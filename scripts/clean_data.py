@@ -48,7 +48,17 @@ def calculateSelfRating(row): #calculates self rating using each skill and their
 
     return selfRating
                 
+def calculateRecommendedAdj(row):
+    recommendedAdjustment = 0
+    lowerLimit = 0.98
+    upperLimit = 1.23
 
+    if row['ratio_self_to_vet_rating'] < lowerLimit:
+        recommendedAdjustment = 1 - row['ratio_self_to_vet_rating']
+    elif row['ratio_self_to_vet_rating'] > upperLimit: 
+        recommendedAdjustment = (row['self_skill_rating'] - row['historical_player_rating']) / (row['ratio_self_to_vet_rating'] * 1.4)
+
+    return recommendedAdjustment
 
 
 if __name__ == "__main__":
@@ -120,6 +130,16 @@ if __name__ == "__main__":
 
     accepted_players_data_subset['ratio_self_to_vet_rating'] = accepted_players_data_subset['self_skill_rating'] / accepted_players_data_subset['historical_player_rating']
 
-    accepted_players_data_subset.to_csv("../data/scoring.csv", index = False)
+    accepted_players_data_subset['recommended_adjustment'] = accepted_players_data_subset.apply(calculateRecommendedAdj, axis = 1)
+
+    accepted_players_data_subset['attendance_adjustment'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Missing Games", scaleDict), axis = 1)
+
+    accepted_players_data_subset['manual_adjustment'] = 0
+
+    accepted_players_data_subset['calculated_total_rating'] = 0.75 * accepted_players_data_subset['historical_player_rating'] + \
+                                                                0.25 * accepted_players_data_subset['self_skill_rating'] - \
+                                                                0.12 * accepted_players_data_subset['attendance_adjustment']
+
+    accepted_players_data_subset.to_csv("../data/scoring.csv", index = False, float_format = "%.3f")
 
 #incorporate scoring sheet logic from draft sheet

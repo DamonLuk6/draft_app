@@ -28,8 +28,7 @@ Level of Play,College Nationals or Club Regionals,4
 Level of Play,College Regionals or Club Sectionals,3
 Level of Play,High School,2
 Level of Play,Pickup,1
-Attendance,Missing Finals,2.5
-Attendance,"Missing four or more regular season games, or playoff games",1.75
-Attendance,Missing one to three regular season games,1
-Attendance,Missing no games,0
-Attendance,Missing no games,0
+Missing Games,Missing Finals,2.5
+Missing Games,"Missing four or more regular season games, or playoff games",1.75
+Missing Games,Missing one to three regular season games,1
+Missing Games,Missing no games,0
