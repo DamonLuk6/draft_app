@@ -40,12 +40,12 @@ def convertSelfRatingToNumeric(row, skillCategory, ratingScale): #converts each 
     return responseNumericRating
 
 def calculateSelfRating(row): #calculates self rating using each skill and their score
-    selfRating = (0.05 * row['experience_rating'] + \
-                0.25 * row['level_of_play_rating'] + \
-                0.2 * row['throwing_rating'] + \
-                0.15 * row['cutting_rating'] + \
-                0.2 * row['athleticism_rating'] + \
-                0.15 * row['endurance_rating']) * 2 
+    selfRating = (0.05 * row['experience rating'] + \
+                0.25 * row['level of play rating'] + \
+                0.2 * row['throwing rating'] + \
+                0.15 * row['cutting rating'] + \
+                0.2 * row['athleticism rating'] + \
+                0.15 * row['endurance rating']) * 2 
 
     return selfRating
                 
@@ -54,10 +54,10 @@ def calculateRecommendedAdj(row):
     lowerLimit = 0.98
     upperLimit = 1.23
 
-    if row['ratio_self_to_vet_rating'] < lowerLimit:
-        recommendedAdjustment = 1 - row['ratio_self_to_vet_rating']
-    elif row['ratio_self_to_vet_rating'] > upperLimit: 
-        recommendedAdjustment = (row['self_skill_rating'] - row['historical_player_rating']) / (row['ratio_self_to_vet_rating'] * 1.4)
+    if row['ratio self to vet rating'] < lowerLimit:
+        recommendedAdjustment = 1 - row['ratio self to vet rating']
+    elif row['ratio self to vet rating'] > upperLimit: 
+        recommendedAdjustment = (row['self skill rating'] - row['historical player rating']) / (row['ratio self to vet rating'] * 1.4)
 
     return recommendedAdjustment
 
@@ -113,33 +113,33 @@ if __name__ == "__main__":
                                         'Status']]
 
 
-    accepted_players_data_subset['historical_player_rating'] = accepted_players_data_subset.apply( lambda row: findExistingPlayerRating(row, existing_player_rating), axis=1)
+    accepted_players_data_subset['historical player rating'] = accepted_players_data_subset.apply( lambda row: findExistingPlayerRating(row, existing_player_rating), axis=1)
 
-    accepted_players_data_subset['throwing_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Throwing", scaleDict), axis = 1)
+    accepted_players_data_subset['throwing rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Throwing", scaleDict), axis = 1)
 
-    accepted_players_data_subset['cutting_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Cutting", scaleDict), axis = 1)
+    accepted_players_data_subset['cutting rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Cutting", scaleDict), axis = 1)
 
-    accepted_players_data_subset['athleticism_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Athleticism", scaleDict), axis = 1)
+    accepted_players_data_subset['athleticism rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Athleticism", scaleDict), axis = 1)
 
-    accepted_players_data_subset['endurance_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Endurance", scaleDict), axis = 1)
+    accepted_players_data_subset['endurance rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Endurance", scaleDict), axis = 1)
 
-    accepted_players_data_subset['experience_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Experience Count", scaleDict), axis = 1)
+    accepted_players_data_subset['experience rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Experience Count", scaleDict), axis = 1)
 
-    accepted_players_data_subset['level_of_play_rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Level of Play", scaleDict), axis = 1)
+    accepted_players_data_subset['level of play rating'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Level of Play", scaleDict), axis = 1)
 
-    accepted_players_data_subset['self_skill_rating'] = accepted_players_data_subset.apply(calculateSelfRating, axis = 1)
+    accepted_players_data_subset['self skill rating'] = accepted_players_data_subset.apply(calculateSelfRating, axis = 1)
 
-    accepted_players_data_subset['ratio_self_to_vet_rating'] = accepted_players_data_subset['self_skill_rating'] / accepted_players_data_subset['historical_player_rating']
+    accepted_players_data_subset['ratio self to vet rating'] = accepted_players_data_subset['self skill rating'] / accepted_players_data_subset['historical player rating']
 
-    accepted_players_data_subset['recommended_adjustment'] = accepted_players_data_subset.apply(calculateRecommendedAdj, axis = 1)
+    accepted_players_data_subset['recommended adjustment'] = accepted_players_data_subset.apply(calculateRecommendedAdj, axis = 1)
 
-    accepted_players_data_subset['attendance_adjustment'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Missing Games", scaleDict), axis = 1)
+    accepted_players_data_subset['attendance adjustment'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Missing Games", scaleDict), axis = 1)
 
-    accepted_players_data_subset['manual_adjustment'] = 0
+    accepted_players_data_subset['manual adjustment'] = 0
 
-    accepted_players_data_subset['calculated_total_rating'] = 0.75 * accepted_players_data_subset['historical_player_rating'] + \
-                                                                0.25 * accepted_players_data_subset['self_skill_rating'] - \
-                                                                0.12 * accepted_players_data_subset['attendance_adjustment']
+    accepted_players_data_subset['calculated total rating'] = 0.75 * accepted_players_data_subset['historical player rating'] + \
+                                                                0.25 * accepted_players_data_subset['self skill rating'] - \
+                                                                0.12 * accepted_players_data_subset['attendance adjustment']
 
     accepted_players_data_subset.to_csv("../data/scoring.csv", index = False, float_format = "%.3f")
 

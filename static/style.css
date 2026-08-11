@@ -1,0 +1,32 @@
+body {
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    background-color: #f5f6fa;
+    margin: 40px;
+    color: #2c3e50;
+}
+
+h2 {
+    color: #1a1a2e;
+    margin-bottom: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    font-size: 12px;      /* shrinks all text */
+    width: 30%;           /* directly constrains overall width */
+}
+
+th, td {
+    padding: 4px 6px;     /* smaller than before, tightens height too */
+}
+
+tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+tr:hover {
+    background-color: #eef3f8;
+}
