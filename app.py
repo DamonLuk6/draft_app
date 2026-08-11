@@ -9,7 +9,7 @@ def scoring():
     return render_template(
         "scoring.html",
         players=df.to_dict("records"),
-        columns=df.columns.tolist()   # <-- send the column names too
+        columns=df.columns.tolist()   #send the column names too
     )
 
 if __name__ == "__main__":

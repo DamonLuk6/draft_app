@@ -1,5 +1,5 @@
 #luk 
-#incorporate scoring sheet logic from draft sheet
+#this script generates the "scoring" sheet based on the raw export from the registration website. run this once as a standalone 
 
 import pandas as pd 
 
