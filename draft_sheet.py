@@ -3,17 +3,26 @@
 
 import pandas as pd
 
-def calculateTiers():
+def calculateTiers(): #use user input to figure out how many of each gender is in each tier, separate by gender, sort by rating
 
     return 
 
-def getDraftSheet():
+def generateDraftSheet():
 
-    draft_sheet = pd.DataFrame()
+    scoringSheetDF = pd.read_csv("data/scoring.csv")
+    scoringSheetDF['final rating'] = scoringSheetDF['manual adjustment'] + scoringSheetDF['calculated total rating']
 
-    return draft_sheet
+    scoringSheetDF['rank by gender'] = scoringSheetDF.groupby('gender_id')['final rating'].rank(ascending = False)
+
+    #breakpoint()
+    #draft_sheet = pd.DataFrame()
+
+
+    return scoringSheetDF
 
 
 if __name__ == "__main__":
-    result = getDraftSheet()
-    print(result[["first_name", "last_name", "final_rating", "draft_rank"]].head(10))
+    result = generateDraftSheet()
+    result.to_csv("./draft_sheet_test.csv", index = False)
+
+    #print(result[["first_name", "last_name", "final_rating", "draft_rank"]].head(10))
