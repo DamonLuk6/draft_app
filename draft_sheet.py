@@ -5,7 +5,11 @@ import pandas as pd
 
 def assignTiers(rankByGender, gender, tier_cutoff: dict): #use user input to figure out how many of each gender is in each tier, separate by gender, sort by rating
 
-    tierCutoffByGender = tier_cutoff[gender]
+    try:
+        tierCutoffByGender = tier_cutoff[gender]
+    except KeyError:
+        print("no tier cutoff defined for gender")
+        return "Unassigned"
 
     if rankByGender <= tierCutoffByGender['tier_1']:
         return "1"
@@ -34,7 +38,12 @@ def calculateBaggageEval(scoringSheetWithBaggages):
 
 def generateDraftSheet(tier_cutoff: dict):
 
-    scoringSheetDF = pd.read_csv("data/scoring.csv")
+    try:
+        scoringSheetDF = pd.read_csv("data/scoring.csv")
+    except FileNotFoundError:
+        print("scoring sheet file not found")
+        raise
+
     scoringSheetDF['final rating'] = scoringSheetDF['manual adjustment'] + scoringSheetDF['calculated total rating']
 
     scoringSheetDF['rank by gender'] = scoringSheetDF.groupby('gender_id')['final rating'].rank(ascending = False)
@@ -54,4 +63,4 @@ if __name__ == "__main__":
 
 
     result = generateDraftSheet(test_tier_cutoff)
-    result.to_csv("./data/draft_sheet_test.csv", index = False, float_format = "%.3f")
+    result.to_csv("./data/draft_sheet.csv", index = False, float_format = "%.3f")
