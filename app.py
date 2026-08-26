@@ -7,7 +7,7 @@ app = Flask(__name__)
 def scoring():
     df = pd.read_csv("data/scoring.csv")
     return render_template(
-        "scoring.html",
+        "scoring_sheet.html",
         players=df.to_dict("records"),
         columns=df.columns.tolist()   #send the column names too
     )
