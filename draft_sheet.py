@@ -20,8 +20,8 @@ def assignTiers(rankByGender, gender, tier_cutoff: dict): #use user input to fig
 
 def calculateBaggageEval(scoringSheetWithBaggages): 
 
-    noBaggage = scoringSheetWithBaggages[scoringSheetWithBaggages['baggage'].isna()] #players without baggage
-    baggage = scoringSheetWithBaggages[scoringSheetWithBaggages['baggage'].notna()] #players with baggage
+    noBaggage = scoringSheetWithBaggages[scoringSheetWithBaggages['baggage'].isna()].copy() #players without baggage
+    baggage = scoringSheetWithBaggages[scoringSheetWithBaggages['baggage'].notna()].copy() #players with baggage
 
     noBaggage['Baggage Eval'] = noBaggage['final rating'] #players without baggage, their "baggage eval" is just their indiv. rating
 
@@ -49,10 +49,35 @@ def generateDraftSheet(tier_cutoff: dict):
     scoringSheetDF['rank by gender'] = scoringSheetDF.groupby('gender_id')['final rating'].rank(ascending = False)
     scoringSheetDF['tier'] = scoringSheetDF.apply( lambda row: assignTiers(row['rank by gender'], row['gender_id'], tier_cutoff), axis = 1)
 
-    fullDraftSheet = calculateBaggageEval(scoringSheetDF)
-    
+    scoringSheetDF['Name'] = scoringSheetDF['first_name'] + ' ' + scoringSheetDF['last_name']
 
-    return fullDraftSheet
+    fullDraftSheet = calculateBaggageEval(scoringSheetDF)
+
+    fullDraftSheetFinal = fullDraftSheet [['Baggage Eval',
+                                           'tier',
+                                           'Name', 
+                                           'final rating', 
+                                           'gender_id', 
+                                           'age',
+                                           'shirt_size', 
+                                           'baggage_group_id', 
+                                           'baggage',
+                                           'Experience Count',
+                                           'Level of Play',
+                                           'Height',
+                                           'Experience List', 
+                                           'throwing rating', 
+                                           'cutting rating',
+                                           'athleticism rating', 
+                                           'endurance rating',
+                                           'Role', 
+                                           'Names', 
+                                           'New Player',
+                                           'Missing Games',
+                                           'Status']]
+
+
+    return fullDraftSheetFinal
 
 
 if __name__ == "__main__":

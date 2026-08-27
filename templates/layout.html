@@ -18,18 +18,18 @@
                 <a class="navbar-brand">MCUDL Draft</a>           
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/home">Home</a>
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/scoring">Scoring</a>
+                        <a class="nav-link" href="{{ url_for('scoring') }}">Scoring</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Draft
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/draftsheet">Sheet</a></li>
-                            <li><a class="dropdown-item" href="/draftboard">Board</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('draftsheet') }}">Sheet</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('draftboard') }}">Board</a></li>
                         </ul>
                     </li>
                 </ul>
