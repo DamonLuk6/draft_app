@@ -70,7 +70,7 @@ if __name__ == "__main__":
         print("raw player data file is missing")
 
     #only need accepted players
-    accepted_player_data_raw = raw_player_data[raw_player_data['status'] == 'accepted']
+    accepted_player_data_raw = raw_player_data[raw_player_data['status'] == 'accepted'].copy()
 
     #skipping first row and adding column names, might have to adjust depending on actual player rating file
     player_rating_col_names = ['first_name', 'last_name', 'usau', 'rating']
@@ -110,7 +110,7 @@ if __name__ == "__main__":
                                         'Names', \
                                         'New Player', \
                                         'Missing Games', \
-                                        'Status']]
+                                        'Status']].copy()
 
 
     accepted_players_data_subset['historical player rating'] = accepted_players_data_subset.apply( lambda row: findExistingPlayerRating(row, existing_player_rating), axis=1)
