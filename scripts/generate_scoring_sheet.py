@@ -135,11 +135,11 @@ if __name__ == "__main__":
 
     accepted_players_data_subset['attendance adjustment'] = accepted_players_data_subset.apply( lambda row: convertSelfRatingToNumeric(row, "Missing Games", scaleDict), axis = 1)
 
-    accepted_players_data_subset['manual adjustment'] = 0
-
     accepted_players_data_subset['calculated total rating'] = 0.75 * accepted_players_data_subset['historical player rating'] + \
                                                                 0.25 * accepted_players_data_subset['self skill rating'] - \
                                                                 0.12 * accepted_players_data_subset['attendance adjustment']
+
+    accepted_players_data_subset['manual adjustment'] = 0
 
     accepted_players_data_subset.to_csv("../data/scoring.csv", index = False, float_format = "%.3f")
 

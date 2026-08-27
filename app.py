@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 import pandas as pd
 
 app = Flask(__name__)
@@ -8,10 +8,20 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-@app.route("/scoring")
+@app.route("/scoring", methods = ['GET', 'POST'])
 def scoring():
     df = pd.read_csv("data/scoring.csv")
-    return render_template("scoring-sheet.html", title = 'Scoring Sheet')
+    df['manual adjustment'] = df['manual adjustment'].astype(float)
+    players = df.to_dict("records")
+    columns = df.columns.tolist()
+
+    if request.method == "POST":
+        for key, value in request.form.items():
+                print(key)
+                df.loc[df['USAU_member_id'].astype(str) == key, 'manual adjustment'] = float(value)
+        df.to_csv("data/scoring.csv", index=False)
+
+    return render_template("scoring-sheet.html", title = 'Scoring Sheet', players = players, columns = columns)
 
 @app.route("/draftsheet")
 def draftsheet():

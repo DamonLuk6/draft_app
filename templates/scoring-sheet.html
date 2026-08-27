@@ -1,4 +1,40 @@
 {% extends "layout.html" %}
 {% block content%}
-    <h1>Scoring Sheet</h1>
+    <form method = 'POST'>
+        <div class="table-responsive mt-4 mx-auto border rounded" style="max-height: 80vh; font-size: 0.85rem; max-width: 93%;">
+            <table class='table table-sm table-light table-hover table-bordered'>
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        {% for col in columns %}
+                            <th scope="col">{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class='table-group-divider'>
+                    {% for player in players %}
+                    <tr class="table-hover">
+                        {% for col in columns %}
+                            {% if col == "recommended adjustment" and player[col] >= 0.7 and player[col] < 1 %}
+                                <td class="table-warning">{{ player[col] }}</td>
+                            {% elif col =="recommended adjustment" and player[col] >= 1 %}
+                                <td class="table-danger">{{ player[col] }}</td>
+                            {% elif col == "manual adjustment" %}
+                                <td>
+                                    <input type="number" step="0.01" class="form-control form-control-sm"
+                                        name="{{ player.USAU_member_id }}"
+                                        value="{{ player[col] }}">
+                                </td>    
+                            {% else %}
+                                <td>{{ player[col] }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end mx-auto" style="max-width: 90%;">
+            <button type="submit" class="btn btn-primary mt-3">Save Adjustments</button>
+        </div>
+    </form>
 {% endblock content %}
