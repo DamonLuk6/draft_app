@@ -3,14 +3,19 @@ import pandas as pd
 
 app = Flask(__name__)
 
+@app.route("/")
+@app.route("/home")
+def home():
+    return render_template("index.html")
+
 @app.route("/scoring")
 def scoring():
     df = pd.read_csv("data/scoring.csv")
-    return render_template(
-        "scoring_sheet.html",
-        players=df.to_dict("records"),
-        columns=df.columns.tolist()   #send the column names too
-    )
+    return render_template("scoring-sheet.html", title = 'Scoring Sheet')
+
+@app.route("/draftsheet")
+def draftsheet():
+    return render_template("draft-sheet.html", title = 'Draft Sheet')
 
 if __name__ == "__main__":
     app.run(debug=True)
