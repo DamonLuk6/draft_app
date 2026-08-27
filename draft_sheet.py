@@ -50,6 +50,7 @@ def generateDraftSheet(tier_cutoff: dict):
     scoringSheetDF['tier'] = scoringSheetDF.apply( lambda row: assignTiers(row['rank by gender'], row['gender_id'], tier_cutoff), axis = 1)
 
     fullDraftSheet = calculateBaggageEval(scoringSheetDF)
+    
 
     return fullDraftSheet
 

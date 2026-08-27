@@ -17,5 +17,9 @@ def scoring():
 def draftsheet():
     return render_template("draft-sheet.html", title = 'Draft Sheet')
 
+@app.route("/draftboard")
+def draftboard():
+    return render_template("draft-board.html", title = "Draft Board")
+
 if __name__ == "__main__":
     app.run(debug=True)

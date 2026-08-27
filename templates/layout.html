@@ -2,17 +2,43 @@
 <html>
     <head>
         <meta charset = 'UTF-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {% if title %}
             <title>MCUDL Draft - {{ title }}</title>
         {% else %}
             <title>MCUDL Draft</title>
         {% endif %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     </head>
 
     <body>
+        <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand">MCUDL Draft</a>           
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scoring">Scoring</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Draft
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/draftsheet">Sheet</a></li>
+                            <li><a class="dropdown-item" href="/draftboard">Board</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
         {% block content %}
         {% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     </body>
 </html>
 
