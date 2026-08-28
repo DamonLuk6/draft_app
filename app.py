@@ -23,6 +23,11 @@ def scoring():
 
     return render_template("scoring-sheet.html", title = 'Scoring Sheet', players = players, columns = columns)
 
+
+@app.route("/tier")
+def tier():
+    return render_template('tier.html', title = 'Tiers')
+
 @app.route("/draftsheet")
 def draftsheet():
     return render_template("draft-sheet.html", title = 'Draft Sheet')
