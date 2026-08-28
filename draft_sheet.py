@@ -57,6 +57,7 @@ def generateDraftSheet(tier_cutoff: dict):
                                            'tier',
                                            'Name', 
                                            'final rating', 
+                                            'rank by gender',
                                            'gender_id', 
                                            'age',
                                            'shirt_size', 
