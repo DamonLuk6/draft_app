@@ -1,7 +1,10 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, flash
 import pandas as pd
+from forms import TierForm
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'e6958684b626fad00305cd8a24d73b9d'
 
 @app.route("/")
 @app.route("/home")
@@ -24,9 +27,18 @@ def scoring():
     return render_template("scoring-sheet.html", title = 'Scoring Sheet', players = players, columns = columns)
 
 
-@app.route("/tier")
+@app.route("/tier", methods = ['GET', 'POST'])
 def tier():
-    return render_template('tier.html', title = 'Tiers')
+    form = TierForm()
+    if form.validate_on_submit():
+        flash('Tier cutoffs submitted', 'success')
+        tier_cutoff = {
+            "Man/Boy": {"tier_1": form.mmpOneCutOff.data, "tier_2": form.mmpTwoCutOff.data},
+            "Woman/Girl": {"tier_1": form.wmpOneCutOff.data, "tier_2": form.wmpTwoCutOff.data}
+        }
+        print(tier_cutoff)
+
+    return render_template('tier.html', title = 'Tiers', form = form)
 
 @app.route("/draftsheet")
 def draftsheet():

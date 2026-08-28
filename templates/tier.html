@@ -1,4 +1,32 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>display tier information here</h1>
+    <div>
+        <form method = "POST">
+            {{ form.hidden_tag() }}
+            <fieldset class="border rounded mt-4 mx-auto" style="max-width: 95%;">
+                <legend class="ms-2 mt-2">Tier Cutoffs</legend>
+                <div class="row ms-2 me-2 mt-4 mb-3">
+                    <div class="col">
+                        {{ form.mmpOneCutOff.label(class="form-control-label") }}
+                        {{ form.mmpOneCutOff(class="form-control form-control-sm")}}
+                    </div>
+                    <div class="col">
+                        {{ form.mmpTwoCutOff.label(class="form-control-label") }}
+                        {{ form.mmpTwoCutOff(class="form-control form-control-sm")}}
+                    </div>
+                    <div class="col">
+                        {{ form.wmpOneCutOff.label(class="form-control-label") }}
+                        {{ form.wmpOneCutOff(class="form-control form-control-sm")}}
+                    </div>
+                    <div class="col">
+                        {{ form.wmpTwoCutOff.label(class="form-control-label") }}
+                        {{ form.wmpTwoCutOff(class="form-control form-control-sm")}}
+                    </div>
+                </div>
+                 <div class="text-end me-2 mb-3">
+                    {{ form.save(class="btn btn-outline-info") }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
 {% endblock content %}
