@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'e6958684b626fad00305cd8a24d73b9d'
 
+tier_cutoff = {
+    "Man/Boy": {"tier_1": 0, "tier_2": 0},
+    "Woman/Girl": {"tier_1": 0, "tier_2": 0}
+}
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -53,7 +58,11 @@ def tier():
 
 @app.route("/draftsheet")
 def draftsheet():
-    return render_template("draft-sheet.html", title = 'Draft Sheet')
+    df = generateDraftSheet(tier_cutoff)
+    players = df.to_dict('records')
+    columns = df.columns.tolist()
+
+    return render_template("draft-sheet.html", title = 'Draft Sheet', players = players, columns = columns)
 
 @app.route("/draftboard")
 def draftboard():

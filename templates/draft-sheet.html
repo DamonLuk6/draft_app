@@ -1,4 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Full Draft Sheet</h1>
+    <div class="table-responsive mt-4 mx-auto border rounded" style="max-height: 80vh; font-size: 0.85rem; max-width: 93%;">
+            <table class='table table-sm table-light table-hover table-bordered'>
+                <thead style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        {% for col in columns %}
+                            <th scope="col">{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class='table-group-divider'>
+                    {% for player in players %}
+                    <tr class="table-hover">
+                        {% for col in columns %}
+                                <td>{{ player[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 {% endblock content %}
